@@ -1,0 +1,19 @@
+# webserver-playbook.yml
+- name: Configure web servers
+  hosts: webservers
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Create devops user
+      user:
+        name: devops
+        groups: sudo
+        append: yes
+        shell: /bin/bash
+      tags: 
+        - user
+
+  roles:
+    - role: nginx
+

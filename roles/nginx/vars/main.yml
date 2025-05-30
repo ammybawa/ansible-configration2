@@ -1,0 +1,8 @@
+
+# vars file for roles/nginx
+server_name: "{{ lookup('env', 'WEBSERVER_DOMAIN') | default('example.com', true) }}"
+nginx_packages:
+  - nginx
+  - curl
+  - git
+

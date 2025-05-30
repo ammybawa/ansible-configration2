@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to {{ server_name }}</title>
+</head>
+<body>
+  <h1>Hello from {{ server_name }}!</h1>
+  <p><strong>Public IP:</strong> {{ public_ip }}</p>
+  <p><strong>Private IP(s):</strong> {{ ansible_all_ipv4_addresses | join(', ') }}</p>
+</body>
+</html>
+

@@ -1,0 +1,46 @@
+
+# tasks file for roles/nginx
+
+- name: Install required packages
+  apt:
+    name: "{{ nginx_packages }}"
+    state: present
+    update_cache: yes
+  tags:
+    - install
+
+- name: Setup NGINX vhost
+  template:
+    src: vhost.conf.j2
+    dest: /etc/nginx/sites-available/default
+  notify: Reload nginx
+  tags:
+    - vhost
+
+- name: Get public IP from external service
+  uri:
+    url: http://ipinfo.io/ip
+    return_content: yes
+  register: public_ip_response
+  tags:
+    - public_ip
+
+- name: Deploy index.html with IPs
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    owner: www-data
+    group: www-data
+    mode: '0644'
+  vars:
+    public_ip: "{{ public_ip_response.content | trim }}"
+  tags: 
+    - html
+
+- name: Start and enable nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags:
+    - start      
