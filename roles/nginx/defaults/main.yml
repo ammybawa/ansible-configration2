@@ -1,4 +1,3 @@
 
 # defaults file for roles/nginx
-WEBSERVER_DOMAIN: defaultdomain.com
 
